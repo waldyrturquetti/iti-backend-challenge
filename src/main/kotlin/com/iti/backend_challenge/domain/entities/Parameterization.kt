@@ -2,6 +2,7 @@ package com.iti.backend_challenge.domain.entities
 
 import org.springframework.data.annotation.Id
 import org.springframework.data.annotation.TypeAlias
+import org.springframework.data.mongodb.core.index.Indexed
 import org.springframework.data.mongodb.core.mapping.Document as MongoDocument
 import org.springframework.data.mongodb.core.mapping.Field
 import java.time.LocalDateTime
@@ -10,30 +11,37 @@ import java.time.LocalDateTime
 sealed class Parameterization(
     @field:Id
     open val id: String,
-    @field:Field("DocumentType")
-    open val documentType: String,
-    @field:Field("Value")
+
+    @Indexed(unique = true)
+    @field:Field("key")
+    open val key: String,
+
+    @field:Field("value")
     open val value: Any,
-    @field:Field("CreatedAt")
+
+    @field:Field("created_at")
     open val createdAt: LocalDateTime = LocalDateTime.now(),
-    @field:Field("UpdatedAt")
+
+    @field:Field("updated_at")
     open val updatedAt: LocalDateTime? = null,
 )
 
 
-@TypeAlias("int_parameter")
-data class ParameterizationIntType(
-    override val id: String,
-    override val value: Int,
-    override val createdAt: LocalDateTime = LocalDateTime.now(),
-    override val updatedAt: LocalDateTime? = null,
-) : Parameterization(id, "INT", value, createdAt, updatedAt)
+@TypeAlias("INT_PARAMETER")
+class ParameterizationIntType(
+    id: String,
+    key: String,
+    value: Int,
+    createdAt: LocalDateTime = LocalDateTime.now(),
+    updatedAt: LocalDateTime? = null,
+) : Parameterization(id, key, value, createdAt, updatedAt)
 
 
-@TypeAlias("string_list_parameter")
-data class ParameterizationListOfStringType(
-    override val id: String,
-    override val value: List<String>,
-    override val createdAt: LocalDateTime = LocalDateTime.now(),
-    override val updatedAt: LocalDateTime? = null,
-) : Parameterization(id, "LIST_OF_STRING", value, createdAt, updatedAt)
+@TypeAlias("STRING_LIST_PARAMETER")
+class ParameterizationListOfStringType(
+    id: String,
+    key: String,
+    value: List<String>,
+    createdAt: LocalDateTime = LocalDateTime.now(),
+    updatedAt: LocalDateTime? = null,
+) : Parameterization(id, key, value, createdAt, updatedAt)
