@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.media.Schema
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.responses.ApiResponses
 import io.swagger.v3.oas.annotations.tags.Tag
+import jakarta.validation.Valid
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -27,7 +28,7 @@ class AuthController(@Autowired val authService: IAuthService) {
         ]
     )
     @PostMapping("/validate-password")
-    fun validatePassword(@RequestBody request: ValidatePasswordRequest): ResponseEntity<ValidatePasswordResponse> {
+    fun validatePassword(@Valid @RequestBody request: ValidatePasswordRequest): ResponseEntity<ValidatePasswordResponse> {
         return ResponseEntity.status(HttpStatus.OK)
             .body(
                 authService.validatePassword(request)
