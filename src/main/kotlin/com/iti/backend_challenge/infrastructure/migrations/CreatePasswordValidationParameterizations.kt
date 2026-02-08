@@ -19,6 +19,15 @@ class CreatePasswordValidationParameterizations {
             mongoTemplate.createCollection("parameterizations")
         }
 
+        val minChars = ParameterizationIntType(
+            id = UUID.randomUUID().toString(),
+            key = "MIN_CHARS",
+            value = 9,
+            createdAt = LocalDateTime.now(),
+            updatedAt = null
+        )
+        mongoTemplate.save(minChars, "parameterizations")
+
         val minDigits = ParameterizationIntType(
             id = UUID.randomUUID().toString(),
             key = "MIN_DIGITS",
