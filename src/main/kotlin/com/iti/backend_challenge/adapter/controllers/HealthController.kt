@@ -1,5 +1,6 @@
-package com.iti.backend_challenge.controllers
+package com.iti.backend_challenge.adapter.controllers
 
+import com.iti.backend_challenge.adapter.dtos.HealthResponse
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.media.Content
 import io.swagger.v3.oas.annotations.media.Schema
@@ -12,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping
 @Tag(name = "Health", description = "Health check endpoints")
 class HealthController {
 
@@ -23,14 +24,9 @@ class HealthController {
                 content = [Content(schema = Schema(implementation = HealthResponse::class))])
         ]
     )
-    @GetMapping("/health")
+    @GetMapping("/health-check")
     fun health(): ResponseEntity<HealthResponse> {
-        return ResponseEntity.ok(HealthResponse("OK", "Application is running"))
+        return ResponseEntity.ok(HealthResponse("OK"))
     }
 }
-
-data class HealthResponse(
-    val status: String,
-    val message: String
-)
 

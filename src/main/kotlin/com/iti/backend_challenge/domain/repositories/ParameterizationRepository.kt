@@ -1,6 +1,6 @@
-package com.iti.backend_challenge.repositories
+package com.iti.backend_challenge.domain.repositories
 
-import com.iti.backend_challenge.entities.Parameterization
+import com.iti.backend_challenge.domain.entities.Parameterization
 import org.springframework.data.mongodb.repository.MongoRepository
 import org.springframework.stereotype.Repository
 

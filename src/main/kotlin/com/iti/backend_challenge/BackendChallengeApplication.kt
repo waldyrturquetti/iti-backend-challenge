@@ -8,4 +8,5 @@ class BackendChallengeApplication
 
 fun main(args: Array<String>) {
 	runApplication<BackendChallengeApplication>(*args)
+	println("Access the API documentation at: http://localhost:8080/swagger-ui/index.html")
 }
