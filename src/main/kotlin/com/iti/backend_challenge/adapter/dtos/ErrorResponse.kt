@@ -2,6 +2,7 @@ package com.iti.backend_challenge.adapter.dtos
 
 import com.fasterxml.jackson.annotation.JsonProperty
 import jakarta.annotation.Nonnull
+import java.time.LocalDateTime
 
 data class ErrorResponse(
 
@@ -14,6 +15,6 @@ data class ErrorResponse(
     val message: String,
 
     @JsonProperty("timestamp")
-    val timestamp: Long = System.currentTimeMillis()
+    val localDateTime: LocalDateTime = LocalDateTime.now()
 )
 

@@ -1,7 +1,7 @@
-package com.iti.backend_challenge.application.helpers.impl
+package com.iti.backend_challenge.application.useCases.impl
 
 import com.iti.backend_challenge.application.exceptions.ParameterizationNotFoundException
-import com.iti.backend_challenge.application.helpers.PasswordValidator
+import com.iti.backend_challenge.application.useCases.PasswordValidatorUseCase
 import com.iti.backend_challenge.domain.entities.Parameterization
 import com.iti.backend_challenge.domain.entities.ParameterizationIntType
 import com.iti.backend_challenge.domain.entities.ParameterizationListOfStringType
@@ -9,18 +9,18 @@ import org.springframework.stereotype.Component
 
 
 @Component
-class IsThePasswordIsNotEmpty : PasswordValidator {
+class IsThePasswordIsNotEmptyUseCase : PasswordValidatorUseCase {
 
     override fun isValidatePassword(
         password: String,
         parameters: List<Parameterization>
     ): Boolean {
-        return password.isNotEmpty()
+        return password.isNotBlank()
     }
 }
 
 @Component
-class IsTheCharacterCountValid : PasswordValidator {
+class IsTheCharacterCountValid : PasswordValidatorUseCase {
 
     override fun isValidatePassword(
         password: String,
@@ -31,12 +31,13 @@ class IsTheCharacterCountValid : PasswordValidator {
             .find { it.key == "MIN_CHARS" }
             ?.value as? Int ?: throw ParameterizationNotFoundException("MIN_CHARS")
 
+
         return password.length >= minChars
     }
 }
 
 @Component
-class IsTheQuantityOfNumbersValid : PasswordValidator {
+class IsTheQuantityOfNumbersValid : PasswordValidatorUseCase {
 
     override fun isValidatePassword(
         password: String,
@@ -53,7 +54,7 @@ class IsTheQuantityOfNumbersValid : PasswordValidator {
 }
 
 @Component
-class IsTheNumberOfUppercaseCharactersValid : PasswordValidator {
+class IsTheNumberOfUppercaseCharactersValid : PasswordValidatorUseCase {
 
     override fun isValidatePassword(
         password: String,
@@ -70,7 +71,7 @@ class IsTheNumberOfUppercaseCharactersValid : PasswordValidator {
 }
 
 @Component
-class IsTheNumberOfLowercaseCharactersValid : PasswordValidator {
+class IsTheNumberOfLowercaseCharactersValid : PasswordValidatorUseCase {
 
     override fun isValidatePassword(
         password: String,
@@ -87,7 +88,7 @@ class IsTheNumberOfLowercaseCharactersValid : PasswordValidator {
 }
 
 @Component
-class IsTheNumberOfSpecialCharactersValid : PasswordValidator {
+class IsTheNumberOfSpecialCharactersValid : PasswordValidatorUseCase {
 
     override fun isValidatePassword(
         password: String,
@@ -113,26 +114,32 @@ class IsTheNumberOfSpecialCharactersValid : PasswordValidator {
 }
 
 @Component
-class IsTheNumberOfRepeatedCharactersValid : PasswordValidator {
+class IsTheNumberOfRepeatedCharactersValid : PasswordValidatorUseCase {
 
     override fun isValidatePassword(
         password: String,
         parameters: List<Parameterization>
     ): Boolean {
-        if (password.length < 2) return false
 
-        var consecutiveCount = 1
-        for (i in 1 until password.length) {
-            if (password[i] == password[i - 1]) {
-                consecutiveCount++
-                if (consecutiveCount > 2) {
-                    return false
-                }
-            } else {
-                consecutiveCount = 1
+        val charSet = mutableSetOf<Char>()
+        for (char in password) {
+            if (charSet.contains(char)) {
+                return false
             }
+            charSet.add(char)
         }
 
         return true
+    }
+}
+
+@Component
+class IsThePasswordHasNoSpacesUseCase : PasswordValidatorUseCase {
+
+    override fun isValidatePassword(
+        password: String,
+        parameters: List<Parameterization>
+    ): Boolean {
+        return !password.contains(' ')
     }
 }
