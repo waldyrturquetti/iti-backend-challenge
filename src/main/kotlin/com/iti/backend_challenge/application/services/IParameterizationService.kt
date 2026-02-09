@@ -4,9 +4,6 @@ import com.iti.backend_challenge.adapter.dtos.ValidatePasswordRequest
 import com.iti.backend_challenge.adapter.dtos.ValidatePasswordResponse
 import com.iti.backend_challenge.domain.entities.Parameterization
 
-interface IAuthService {
-    fun validatePassword(
-        validatePasswordRequest: ValidatePasswordRequest,
-        parameterizations: List<Parameterization>
-    ): ValidatePasswordResponse
+interface IParameterizationService {
+    fun getAllParameterizations(): List<Parameterization>
 }

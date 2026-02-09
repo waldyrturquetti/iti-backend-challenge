@@ -3,6 +3,7 @@ package com.iti.backend_challenge.unit.application.services
 import com.iti.backend_challenge.adapter.dtos.ValidatePasswordRequest
 import com.iti.backend_challenge.adapter.exceptions.InternalServerErrorException
 import com.iti.backend_challenge.application.services.impl.AuthServiceImpl
+import com.iti.backend_challenge.application.services.impl.ParameterizationServiceImpl
 import com.iti.backend_challenge.application.useCases.impl.*
 import com.iti.backend_challenge.domain.entities.ParameterizationIntType
 import com.iti.backend_challenge.domain.entities.ParameterizationListOfStringType
@@ -24,6 +25,8 @@ class AuthServiceImplUnitTest {
     @Mock
     private lateinit var parameterizationRepository: ParameterizationRepository
 
+    private lateinit var parameterizationService: ParameterizationServiceImpl
+
     private lateinit var authService: AuthServiceImpl
 
     private val validators = listOf(
@@ -40,7 +43,8 @@ class AuthServiceImplUnitTest {
     @BeforeEach
     fun setUp() {
         MockitoAnnotations.openMocks(this)
-        authService = AuthServiceImpl(parameterizationRepository, validators)
+        parameterizationService = ParameterizationServiceImpl(parameterizationRepository)
+        authService = AuthServiceImpl(validators)
     }
 
     @Test
@@ -54,7 +58,7 @@ class AuthServiceImplUnitTest {
         whenever(parameterizationRepository.findAll()).thenReturn(parameterizations)
 
         // Act
-        val response = authService.validatePassword(request)
+        val response = authService.validatePassword(request, parameterizationService.getAllParameterizations())
 
         // Assert
         assertTrue(response.isValid)
@@ -71,7 +75,7 @@ class AuthServiceImplUnitTest {
         whenever(parameterizationRepository.findAll()).thenReturn(parameterizations)
 
         // Act
-        val response = authService.validatePassword(request)
+        val response = authService.validatePassword(request, parameterizationService.getAllParameterizations())
 
         // Assert
         assertFalse(response.isValid)
@@ -88,7 +92,7 @@ class AuthServiceImplUnitTest {
         whenever(parameterizationRepository.findAll()).thenReturn(parameterizations)
 
         // Act
-        val response = authService.validatePassword(request)
+        val response = authService.validatePassword(request, parameterizationService.getAllParameterizations())
 
         // Assert
         assertFalse(response.isValid)
@@ -105,7 +109,7 @@ class AuthServiceImplUnitTest {
         whenever(parameterizationRepository.findAll()).thenReturn(parameterizations)
 
         // Act
-        val response = authService.validatePassword(request)
+        val response = authService.validatePassword(request, parameterizationService.getAllParameterizations())
 
         // Assert
         assertFalse(response.isValid)
@@ -122,7 +126,7 @@ class AuthServiceImplUnitTest {
 
         // Act & Assert
         assertThrows<InternalServerErrorException> {
-            authService.validatePassword(request)
+            authService.validatePassword(request, parameterizationService.getAllParameterizations())
         }
     }
 
@@ -137,7 +141,7 @@ class AuthServiceImplUnitTest {
         whenever(parameterizationRepository.findAll()).thenReturn(parameterizations)
 
         // Act
-        val response = authService.validatePassword(request)
+        val response = authService.validatePassword(request, parameterizationService.getAllParameterizations())
 
         // Assert
         assertTrue(response.isValid)
@@ -154,7 +158,7 @@ class AuthServiceImplUnitTest {
         whenever(parameterizationRepository.findAll()).thenReturn(parameterizations)
 
         // Act
-        val response = authService.validatePassword(request)
+        val response = authService.validatePassword(request, parameterizationService.getAllParameterizations())
 
         // Assert
         assertFalse(response.isValid)
@@ -171,7 +175,7 @@ class AuthServiceImplUnitTest {
         whenever(parameterizationRepository.findAll()).thenReturn(parameterizations)
 
         // Act
-        val response = authService.validatePassword(request)
+        val response = authService.validatePassword(request, parameterizationService.getAllParameterizations())
 
         // Assert
         assertFalse(response.isValid)
@@ -190,7 +194,7 @@ class AuthServiceImplUnitTest {
         whenever(parameterizationRepository.findAll()).thenReturn(parameterizations)
 
         // Act
-        val response = authService.validatePassword(request)
+        val response = authService.validatePassword(request, parameterizationService.getAllParameterizations())
 
         // Assert
         assertFalse(response.isValid) // Fails: IsThePasswordIsNotEmptyUseCase
@@ -207,7 +211,7 @@ class AuthServiceImplUnitTest {
         whenever(parameterizationRepository.findAll()).thenReturn(parameterizations)
 
         // Act
-        val response = authService.validatePassword(request)
+        val response = authService.validatePassword(request, parameterizationService.getAllParameterizations())
 
         // Assert
         assertFalse(response.isValid) // Fails: too short (2 < 9), repeated 'a', no uppercase, no digit, no special char
@@ -224,7 +228,7 @@ class AuthServiceImplUnitTest {
         whenever(parameterizationRepository.findAll()).thenReturn(parameterizations)
 
         // Act
-        val response = authService.validatePassword(request)
+        val response = authService.validatePassword(request, parameterizationService.getAllParameterizations())
 
         // Assert
         assertFalse(response.isValid) // Fails: too short (2 < 9), no uppercase, no digit, no special char
@@ -241,7 +245,7 @@ class AuthServiceImplUnitTest {
         whenever(parameterizationRepository.findAll()).thenReturn(parameterizations)
 
         // Act
-        val response = authService.validatePassword(request)
+        val response = authService.validatePassword(request, parameterizationService.getAllParameterizations())
 
         // Assert
         assertFalse(response.isValid) // Fails: repeated 'A', 'b', 'C', no digit, no special char
@@ -258,7 +262,7 @@ class AuthServiceImplUnitTest {
         whenever(parameterizationRepository.findAll()).thenReturn(parameterizations)
 
         // Act
-        val response = authService.validatePassword(request)
+        val response = authService.validatePassword(request, parameterizationService.getAllParameterizations())
 
         // Assert
         assertFalse(response.isValid) // Fails: repeated 'o'
@@ -275,7 +279,7 @@ class AuthServiceImplUnitTest {
         whenever(parameterizationRepository.findAll()).thenReturn(parameterizations)
 
         // Act
-        val response = authService.validatePassword(request)
+        val response = authService.validatePassword(request, parameterizationService.getAllParameterizations())
 
         // Assert
         assertFalse(response.isValid) // Fails: repeated 'A'
@@ -292,7 +296,7 @@ class AuthServiceImplUnitTest {
         whenever(parameterizationRepository.findAll()).thenReturn(parameterizations)
 
         // Act
-        val response = authService.validatePassword(request)
+        val response = authService.validatePassword(request, parameterizationService.getAllParameterizations())
 
         // Assert
         assertFalse(response.isValid) // Fails: contains space
@@ -309,7 +313,7 @@ class AuthServiceImplUnitTest {
         whenever(parameterizationRepository.findAll()).thenReturn(parameterizations)
 
         // Act
-        val response = authService.validatePassword(request)
+        val response = authService.validatePassword(request, parameterizationService.getAllParameterizations())
 
         // Assert
         assertTrue(response.isValid) // Passes all validators:

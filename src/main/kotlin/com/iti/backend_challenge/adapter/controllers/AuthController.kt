@@ -3,6 +3,7 @@ package com.iti.backend_challenge.adapter.controllers
 import com.iti.backend_challenge.adapter.dtos.ValidatePasswordRequest
 import com.iti.backend_challenge.adapter.dtos.ValidatePasswordResponse
 import com.iti.backend_challenge.application.services.IAuthService
+import com.iti.backend_challenge.application.services.IParameterizationService
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.media.Content
 import io.swagger.v3.oas.annotations.media.Schema
@@ -18,7 +19,10 @@ import org.springframework.web.bind.annotation.*
 @RestController
 @RequestMapping("/auth")
 @Tag(name = "Authentication", description = "Authentication endpoints")
-class AuthController(@Autowired val authService: IAuthService) {
+class AuthController(
+    @Autowired val authService: IAuthService,
+    @Autowired val parameterizationService: IParameterizationService
+) {
 
     @Operation(summary = "Validate Password", description = "Returns whether the provided password is valid according to the defined rules")
     @ApiResponses(
@@ -31,7 +35,7 @@ class AuthController(@Autowired val authService: IAuthService) {
     fun validatePassword(@Valid @RequestBody request: ValidatePasswordRequest): ResponseEntity<ValidatePasswordResponse> {
         return ResponseEntity.status(HttpStatus.OK)
             .body(
-                authService.validatePassword(request)
+                authService.validatePassword(request, parameterizationService.getAllParameterizations())
             )
     }
 }
