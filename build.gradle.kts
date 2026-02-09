@@ -40,9 +40,14 @@ dependencies {
 	testImplementation("org.springframework.boot:spring-boot-starter-data-mongodb-test")
 	testImplementation("org.springframework.boot:spring-boot-starter-mongodb-test")
 	testImplementation("org.springframework.boot:spring-boot-starter-webmvc-test")
+	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
 	testImplementation("org.mockito.kotlin:mockito-kotlin:5.1.0")
 	testImplementation("org.mockito:mockito-core:5.2.0")
+	testImplementation("org.testcontainers:testcontainers:1.19.3")
+	testImplementation("org.testcontainers:junit-jupiter:1.19.3")
+	testImplementation("org.testcontainers:mongodb:1.19.3")
+	testImplementation("org.springframework.boot:spring-boot-starter-restclient")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 

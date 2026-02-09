@@ -1,4 +1,4 @@
-package com.iti.backend_challenge.application.services
+package com.iti.backend_challenge.unit.application.services
 
 import com.iti.backend_challenge.adapter.dtos.ValidatePasswordRequest
 import com.iti.backend_challenge.adapter.exceptions.InternalServerErrorException
@@ -19,7 +19,7 @@ import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 @DisplayName("AuthService Tests")
-class AuthServiceImplTest {
+class AuthServiceImplUnitTest {
 
     @Mock
     private lateinit var parameterizationRepository: ParameterizationRepository

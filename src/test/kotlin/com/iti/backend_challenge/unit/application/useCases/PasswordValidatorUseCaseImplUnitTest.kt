@@ -1,4 +1,4 @@
-package com.iti.backend_challenge.application.useCases
+package com.iti.backend_challenge.unit.application.useCases
 
 import com.iti.backend_challenge.application.exceptions.ParameterizationNotFoundException
 import com.iti.backend_challenge.application.useCases.impl.*
@@ -13,7 +13,7 @@ import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 @DisplayName("PasswordValidator Use Cases Tests")
-class PasswordValidatorUseCaseImplTest {
+class PasswordValidatorUseCaseImplUnitTest {
 
     private fun createMockParameterizations() = listOf(
         ParameterizationIntType(
